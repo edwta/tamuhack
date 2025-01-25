@@ -12,9 +12,9 @@ function search() {
     if (td) {
       txtValue = td.textContent || td.innerText;
       if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        td.style.display = "";
+        tr[i].style.display = "";
       } else {
-        td.style.display = "none";
+        tr[i].style.display = "none";
       }
     }
   }
