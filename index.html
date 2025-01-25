@@ -5,74 +5,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="src/output.css">
+    <link rel="stylesheet" href="src/home.css">
 </head>
 <body>
-    <h1>TOYOTA</h1>
-    <div class="topnav">
-        <a class="active" href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-        <input type="text" id="search" onkeyup="search()" placeholder="Search for a car by name">
+    
+
+
+
+<nav class="bg-white dark:bg-gray-900 sticky w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    
+
+        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">TOYOTA</span>
+    </a>
+    <div class="bg-blue md:order-2">
+        
+        <button class="bg-blue-700 text-white rounded-md p-2 hover:bg-blue-900"type="button">Looking...</button>
+        
+         
+             
+      
     </div>
-    <div class="simple">
-        <p>I want a car that...</p>
-        <input type="text" id="searchAI" onkeyup="search()" placeholder="will last me for years">
-        <button>Go</button>
+    <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+        <input type="text" placeholder="Search for a car">
+       
+        
+         
+             
+      
     </div>
-    <div class="cars">
+    
+   
+    <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
+      <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+        <li>
+          <a href="#" class="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500" aria-current="page">Home</a>
+        </li>
+        <li>
+          <a href="#" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</a>
+        </li>
+        
+        <li>
+          <a href="#" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
+        </li>
+      </ul>
+    </div>
+    
+  </nav>
+  
+    
         <table id="carTable">
-            <tr>
-                <td>
-                    Car 1
-                    <ul>
-                        <li>Base MSRP: 100</li>
-                        <li>Estimated MPG: 20/24</li>
-                        <li>Description: Blah blah blah</li>
-                    </ul>
-                </td>
+            <tr class="box">
                 <td>
                     <img src="https://images.dealer.com/ddc/vehicles/2025/Toyota/Camry/Sedan/trim_SE_2bd981/color/Underground-1L7-83%2C81%2C83-640-en_US.jpg?impolicy=downsize_bkpt&imdensity=1&w=520">
+                    Car1
                 </td>
+                <td>Car1</td>
+                <td>Car1</td>
+                <td>Car1</td>
+                <td>Car1</td>
             </tr>
-            <tr>
-                <td>
-                    Car 2
-                    <ul>
-                        <li>Base MSRP: 100</li>
-                        <li>Estimated MPG: 20/24</li>
-                        <li>Description: Blah blah blah</li>
-                    </ul>
-                </td>
-                <td>
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSugbvs3bH84r2ON2LApkaduVZUhhHXp8PO0Q&s">
-                </td>
+            <tr class="box">
+                <td>Car2</td>
+                <td>Car1</td>
+                <td>Car1</td>
+                <td>Car1</td>
+                <td>Car1</td>
             </tr>
-            <tr>
-                <td>
-                    Car 3
-                    <ul>
-                        <li>Base MSRP: 100</li>
-                        <li>Estimated MPG: 20/24</li>
-                        <li>Description: Blah blah blah</li>
-                    </ul>
-                </td>
-                <td>
-                    <img src="https://bucket.dealervenom.com/copeland-toyota/C430752_8X8_Front.webp?auto=compress%2Cformat&ixlib=php-3.3.1">
-                </td>
+            <tr class="box">
+                <td>Car3</td>
+                <td>Car1</td>
+                <td>Car1</td>
+                <td>Car1</td>
+                <td>Car1</td>
             </tr>
-            <tr>
-                <td>
-                    Car 4
-                    <ul>
-                        <li>Base MSRP: 100</li>
-                        <li>Estimated MPG: 20/24</li>
-                        <li>Description: Blah blah blah</li>
-                    </ul>
-                </td>
-                <td>
-                    <img src="https://global.toyota/pages/models/images/20191018/thumbnail/corolla_w610_01.jpg">
-                </td>
+            <tr class="box">
+                <td>Car4</td>
+                <td>Car1</td>
+                <td>Car1</td>
+                <td>Car1</td>
+                <td>Car1</td>
             </tr>
         </table>
         <!-- <div class="box"><p>CAR</p></div>
