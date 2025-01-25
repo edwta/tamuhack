@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,23 +12,50 @@
     <div class="topnav">
         <a class="active" href="#home">Home</a>
         <a href="#about">About</a>
-    
-        <input type="text" placeholder="Search for a car">
+        <a href="#contact">Contact</a>
+        <input type="text" id="search" onkeyup="search()" placeholder="Search for a car">
     </div>
     <div class="cars">
+        <table id="carTable">
+            <tr class="box">
+                <td>
+                    <img src="https://images.dealer.com/ddc/vehicles/2025/Toyota/Camry/Sedan/trim_SE_2bd981/color/Underground-1L7-83%2C81%2C83-640-en_US.jpg?impolicy=downsize_bkpt&imdensity=1&w=520">
+                    Car1
+                </td>
+                <td>Car1</td>
+                <td>Car1</td>
+                <td>Car1</td>
+                <td>Car1</td>
+            </tr>
+            <tr class="box">
+                <td>Car2</td>
+                <td>Car1</td>
+                <td>Car1</td>
+                <td>Car1</td>
+                <td>Car1</td>
+            </tr>
+            <tr class="box">
+                <td>Car3</td>
+                <td>Car1</td>
+                <td>Car1</td>
+                <td>Car1</td>
+                <td>Car1</td>
+            </tr>
+            <tr class="box">
+                <td>Car4</td>
+                <td>Car1</td>
+                <td>Car1</td>
+                <td>Car1</td>
+                <td>Car1</td>
+            </tr>
+        </table>
+        <!-- <div class="box"><p>CAR</p></div>
         <div class="box"><p>CAR</p></div>
         <div class="box"><p>CAR</p></div>
         <div class="box"><p>CAR</p></div>
         <div class="box"><p>CAR</p></div>
-        <div class="box"><p>CAR</p></div>
-        <div class="box"><p>CAR</p></div>
+        <div class="box"><p>CAR</p></div> -->
     </div>
-
-
-
-    
-
-
-
+    <script src="filter.js"></script>
 </body>
 </html>
