@@ -28,11 +28,8 @@
       
     </div>
     <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-        <input type="text" placeholder="Search for a car">
-       
-        
-         
-             
+        <input type="text" id="search" onkeyup="search()" placeholder="Search for a car" class="dark:text-white">
+                  
       
     </div>
     
@@ -55,39 +52,68 @@
   </nav>
   
     
-        <table id="carTable">
-            <tr class="box">
-                <td>
-                    <img src="https://images.dealer.com/ddc/vehicles/2025/Toyota/Camry/Sedan/trim_SE_2bd981/color/Underground-1L7-83%2C81%2C83-640-en_US.jpg?impolicy=downsize_bkpt&imdensity=1&w=520">
-                    Car1
-                </td>
-                <td>Car1</td>
-                <td>Car1</td>
-                <td>Car1</td>
-                <td>Car1</td>
-            </tr>
-            <tr class="box">
-                <td>Car2</td>
-                <td>Car1</td>
-                <td>Car1</td>
-                <td>Car1</td>
-                <td>Car1</td>
-            </tr>
-            <tr class="box">
-                <td>Car3</td>
-                <td>Car1</td>
-                <td>Car1</td>
-                <td>Car1</td>
-                <td>Car1</td>
-            </tr>
-            <tr class="box">
-                <td>Car4</td>
-                <td>Car1</td>
-                <td>Car1</td>
-                <td>Car1</td>
-                <td>Car1</td>
-            </tr>
-        </table>
+  <div class="cars">
+    <table id="carTable">
+        <tr>
+            <td>
+                <ul>
+                    <li class="title">Car 1</li>
+                    <li>Base MSRP: 100</li>
+                    <li>Estimated MPG: 20/24</li>
+                    <li>Description: Blah blah blah</li>
+                </ul>
+            </td>
+            <td>
+                <img src="https://images.dealer.com/ddc/vehicles/2025/Toyota/Camry/Sedan/trim_SE_2bd981/color/Underground-1L7-83%2C81%2C83-640-en_US.jpg?impolicy=downsize_bkpt&imdensity=1&w=520",
+                onclick="popup.showModal()">
+            </td>
+            <dialog id="popup" class="modal">
+                <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                  <h3 class="text-lg font-bold">Hello!</h3>
+                  <p class="mt-2">Press ESC key or click outside to close</p>
+                </div>
+                <form method="dialog" class="modal-backdrop"></form>
+              </dialog>
+        </tr>
+        <tr>
+            <td>
+                <ul>
+                    <li class="title">Car 2</li>
+                    <li>Base MSRP: 100</li>
+                    <li>Estimated MPG: 20/24</li>
+                    <li>Description: Blah blah blah</li>
+                </ul>
+            </td>
+            <td>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSugbvs3bH84r2ON2LApkaduVZUhhHXp8PO0Q&s">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <ul>
+                    <li class="title">Car 3</li>
+                    <li>Base MSRP: 100</li>
+                    <li>Estimated MPG: 20/24</li>
+                    <li>Description: Blah blah blah</li>
+                </ul>
+            </td>
+            <td>
+                <img src="https://bucket.dealervenom.com/copeland-toyota/C430752_8X8_Front.webp?auto=compress%2Cformat&ixlib=php-3.3.1">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <ul>
+                    <li class="title">Car 4</li>
+                    <li>Base MSRP: 100</li>
+                    <li>Estimated MPG: 20/24</li>
+                    <li>Description: Blah blah blah</li>
+                </ul>
+            </td>
+            <td>
+                <img src="https://global.toyota/pages/models/images/20191018/thumbnail/corolla_w610_01.jpg">
+            </td>
+        </tr>
         <!-- <div class="box"><p>CAR</p></div>
         <div class="box"><p>CAR</p></div>
         <div class="box"><p>CAR</p></div>
