@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+
 .topnav {
     overflow: hidden;
     background-color: #A9A9A9;
@@ -21,15 +22,7 @@
     background-color: #ddd;
     color: black;
   }
-  .title {
-    display: flex;
-
-    align-items: center;
-    
-    
-  }
   
- 
   /* Style the "active" element to highlight the current page */
   .topnav a.active {
     background-color: #2196F3;
@@ -44,21 +37,47 @@
     margin-top: 8px;
     margin-right: 16px;
     font-size: 17px;
+    color:white
   }
+
+/*   .simple {
+    overflow: hidden;
+  }
+
+  .simple p, .simple input{
+    justify-content: center;
+    align-items: center;
+    display: inline-block;
+    padding:6px;
+    text-align: left;
+  } */
 
   #carTable {
     border-collapse: collapse;
     display: grid;
     grid-template-columns: auto auto auto;
     grid-template-rows: auto auto auto;
-    border: 1px solid black;
+    border: 0px;
+    justify-content: center;
   }
   
-  #carTable tr, #carTable td {
-    border: 1px solid black;
+  #carTable tr, #carTable td, ul{
     padding: 12px;
+    border: 0px;
+    text-align: center;
   }
 
-  #carTable td:hover {
+  #carTable tr:hover {
     background-color: #f1f1f1;
+  }
+
+  #carTable img {
+    height: 300px;
+    width: 400px;
+  }
+
+  .title {
+    font-weight: bold;
+    display: inline;
+    text-align: center;
   }
