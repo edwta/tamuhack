@@ -36,6 +36,18 @@
     font-size: 17px;
   }
 
+  .simple {
+    overflow: hidden;
+  }
+
+  .simple p, .simple input{
+    justify-content: center;
+    align-items: center;
+    display: inline-block;
+    padding:6px;
+    text-align: left;
+  }
+
   #carTable {
     border-collapse: collapse;
     display: grid;
@@ -51,4 +63,9 @@
 
   #carTable td:hover {
     background-color: #f1f1f1;
+  }
+
+  #carTable img {
+    height: 600px;
+    width: 800px;
   }
