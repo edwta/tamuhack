@@ -36,12 +36,12 @@ def index_vehicle_data():
 @app.route('/')
 @app.route('/home')
 def home():
-    return render_template('index.html')
-
-
-@app.route('/about')
-def about():
     return render_template('about.html')
+
+
+@app.route('/index')
+def about():
+    return render_template('index.html')
 
 
 @app.route('/api/vehicles', methods=['GET'])
