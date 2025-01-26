@@ -22,42 +22,7 @@
     </header>
 
     <!-- Main Content -->
-<<<<<<< HEAD
-    <main class="container mx-auto mt-8 p-4 bg-white shadow-lg rounded-lg">
-        <!-- Sorting Options -->
-        <form action="/search" method="get" class="flex flex-wrap items-center gap-4 mb-6">
-            <!-- Preserve Existing Query Parameters -->
-            <input type="hidden" name="make" value="{{ request.args.get('make', '') }}">
-            <input type="hidden" name="model" value="{{ request.args.get('model', '') }}">
-            <input type="hidden" name="price" value="{{ request.args.get('price', '') }}">
-            <input type="hidden" name="year" value="{{ request.args.get('year', '') }}">
-            <input type="hidden" name="page" value="1"> <!-- Reset to page 1 on new sort -->
-
-            <!-- Sorting Options -->
-            <div>
-                <label for="sort" class="block text-gray-700 font-medium">Sort By:</label>
-                <select name="sort" id="sort" class="p-2 border border-gray-300 rounded-lg">
-                    <option value="year" {% if request.args.get('sort') == 'year' %}selected{% endif %}>Year</option>
-                    <option value="fuelcost08" {% if request.args.get('sort') == 'fuelcost08' %}selected{% endif %}>Fuel Cost</option>
-                </select>
-            </div>
-            <div>
-                <label for="order" class="block text-gray-700 font-medium">Order:</label>
-                <select name="order" id="order" class="p-2 border border-gray-300 rounded-lg">
-                    <option value="asc" {% if request.args.get('order') == 'asc' %}selected{% endif %}>Ascending</option>
-                    <option value="desc" {% if request.args.get('order') == 'desc' %}selected{% endif %}>Descending</option>
-                </select>
-            </div>
-            <button 
-                type="submit" 
-                class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                Apply
-            </button>
-        </form>
-
-=======
     <main class="container mx-auto mt-8 p-4 bg-white dark:bg-gray-600 shadow-lg rounded-lg">
->>>>>>> refs/remotes/origin/main
         {% if error %}
             <!-- Error Message -->
             <div class="text-center">
@@ -66,18 +31,13 @@
         {% elif vehicles %}
             <!-- Total Results -->
             <div class="mb-4">
-<<<<<<< HEAD
                 <p class="text-gray-700 text-lg font-medium">Total Results: {{ total_results }}</p>
                 <p class="text-gray-500 text-sm">Page {{ page }} of {{ (total_results // page_size) + (1 if total_results % page_size > 0 else 0) }}</p>
-=======
-                <p class="text-gray-700 dark:text-gray-200 text-lg font-medium">Total Results: {{ total_results }}</p>
->>>>>>> refs/remotes/origin/main
             </div>
 
             <!-- Vehicle List -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {% for vehicle in vehicles %}
-<<<<<<< HEAD
                     <div class="bg-gray-50 border border-gray-200 rounded-lg shadow p-4">
                         <!-- Display Image URL for Debugging -->
                         <p class="text-sm text-gray-500 mb-2">{{ vehicle.image_url }}</p>
@@ -93,13 +53,6 @@
                         <p class="text-gray-600 mt-2">Year: {{ vehicle.year }}</p>
                         <p class="text-gray-600">Fuel Cost: ${{ vehicle.fuelcost08 }}</p>
                         <p class="text-gray-600">Drive: {{ vehicle.drive }}</p>
-=======
-                    <div class="bg-gray-50 dark:bg-gray-500 rounded-lg shadow-lg p-4">
-                        <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 ">{{ vehicle.make }} {{ vehicle.model }}</h2>
-                        <p class="text-gray-600 dark:text-gray-200 mt-2">Year: {{ vehicle.year }}</p>
-                        <p class="text-gray-600 dark:text-gray-200">Fuel Cost: ${{ vehicle.fuelcost08 }}</p>
-                        <p class="text-gray-600 dark:text-gray-200">Drive: {{ vehicle.drive }}</p>
->>>>>>> refs/remotes/origin/main
                     </div>
                 {% endfor %}
             </div>
