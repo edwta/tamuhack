@@ -224,18 +224,22 @@ def search():
 
 
 
-@app.route('/vehicle/<id>', methods=['GET'])
-def vehicle_details(id):
+@app.route('/vehicle/<vehicle_id>')
+def vehicle_details(vehicle_id):
     try:
-        # Fetch the vehicle details from Elasticsearch by document ID
-        response = es.get(index="vehicles", id=id)
+        # Fetch the vehicle details from Elasticsearch
+        response = es.get(index="vehicles", id=vehicle_id)
         vehicle = response['_source']
+        
+        # Fetch or construct the image URL
+        vehicle['image_url'] = ensure_url_scheme(
+            fetch_car_image_with_cache(vehicle['make'], vehicle['model'])
+        ) or "static/images/toyota_generic.jpg"
 
-        # Render the details page
         return render_template('vehicle_details.html', vehicle=vehicle)
     except Exception as e:
-        print(f"Error fetching vehicle details for ID {id}: {e}")
-        return render_template('vehicle_details.html', error="Vehicle not found"), 404
+        print(f"Error fetching vehicle details: {e}")
+        return render_template('vehicle_details.html', error="Vehicle not found")
 
 
 @app.route('/compare')
