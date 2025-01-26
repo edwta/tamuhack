@@ -60,17 +60,20 @@
     <br>
     
     <div class="flex items-center justify-center flex-row">
-        <h1 class="animate-pulse  items-center justify-center mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Search for your desired Toyota here!</h1>
+        <a href="/search" class="animate-pulse  items-center justify-center mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Search for your desired Toyota here!</a>
         <img class="size-40" src="{{ url_for('static', filename='images/toyota-logo-png-25.png') }}">
         
     
     </div>
-    <div class=" flex flex-row justify-center bg-stone-200">
-        <img class="h-156 w-240 object-fit" src="{{ url_for('static', filename='images/24-toyota-prius-01.jpg') }}">
+    <div class=" grid grid-rows-2 col-span-2 bg-stone-200">
+        <div>
+            <img class="object-fit" src="{{ url_for('static', filename='images/24-toyota-prius-01.jpg') }}">
+        </div>
+        
         <div class="flex flex-col justify-center align-center">
-            <p class="p-3 font-semibold dark:text-gray-900 text-xl">Easy to find any car of your choice with just a search</p>
-            <img src="{{ url_for('static', filename='images/Screen Shot 2025-01-26 at 7.14.01 AM.png') }}">
-            <a class="p-3 text-center text-blue-600 font-extrabold" href="/search">Start now!</a>
+            <p style="text-align: center;" class="p-3 font-semibold dark:text-gray-900 text-xl">Easy to find any car of your choice with just a search</p>
+            <img style="padding-left: 10px; padding-right: 10px;" src="{{ url_for('static', filename='images/Screen Shot 2025-01-26 at 7.14.01 AM.png') }}">
+            <a class="p-3 text-center text-blue-600 animate-pulse font-extrabold" href="/search">Start now!</a>
         </div>
 
         
@@ -79,12 +82,12 @@
     <div class="lineb"><div class="linew"></div></div>
     <br>
 
-    <div class="flex flex-row justify-center bg-stone-200">
-        <div class="flex flex-col justify-center align-center">
+    <div class="grid col-span-2 justify-center bg-stone-200">
+        <div class="md:flex-1 flex flex-col justify-center align-center">
             <p class="p-5 font-semibold text-2xl dark:text-gray-900">Scroll through options</p>
         </div>
         
-        <img class="w-300 object-fit" src="{{ url_for('static', filename='images/Screen Shot 2025-01-26 at 7.13.39 AM.png') }}">
+        <img class="md:flex-4" src="{{ url_for('static', filename='images/Screen Shot 2025-01-26 at 7.13.39 AM.png') }}">
 
     </div>
     <br>
@@ -103,10 +106,17 @@
         </div>
         <button id="right" class="hover:bg-gray-400 left-153 top-60 absolute border-1  bg-gray-300 rounded-md ">&rarr;</button>
         
-        <h2 class="fadeI absolute top-25 text-4xl left-200 font-bold text-red-400 decoration-red-100" id="desc" style="color: #EB0A1E">TOYOTA CAMRY</h2>
-        <p id="descM" class="fadeI absolute text-red-300 font-semibold top-60 left-200" style="color: #EB0A1E"></p>
+            <h2 class="fadeI absolute top-25 text-4xl left-200 font-bold text-red-400 decoration-red-100" id="desc" style="color: #EB0A1E">TOYOTA CAMRY</h2>
+            <p id="descM" class="fadeI absolute text-red-300 font-semibold top-60 left-200" style="color: #EB0A1E"></p>
+        
+        
     </div>
-    <div class="h-32"></div>
+    
+    <footer class="bg-gray-900 py-6 mt-8 shadow-md">
+        <div class="container mx-auto text-center">
+            <p class="text-sm">&copy; 2025 ToyoChallenge. All rights reserved.</p>
+        </div>
+    </footer>
     <script src="{{ url_for('static', filename='src/other.js') }}"></script>
 
 </body>
