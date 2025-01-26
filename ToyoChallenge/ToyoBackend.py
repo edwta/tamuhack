@@ -4,6 +4,7 @@ from flask import Flask, render_template, jsonify, request
 from elasticsearch_client import get_elasticsearch_client
 from utils import fetch_car_image
 from utils import fetch_car_image_with_cache
+from utils import ensure_url_scheme
 
 app = Flask(__name__)
 es = get_elasticsearch_client()  # Connect to Elasticsearch (default: localhost:9200)
@@ -57,7 +58,7 @@ def get_vehicles():
 
 @app.route('/search', methods=['GET'])
 def search():
-    # Check if there are query parameters; if not, render the input form
+    # Render the search input form if no query parameters are provided
     if not any(request.args.values()):
         return render_template('search.html')  # Render the search form page
 
@@ -67,21 +68,25 @@ def search():
     price = request.args.get('price', type=int)
     year = request.args.get('year', type=int)
 
-    # Image search with Google Search API
-    # image_url = fetch_car_image(make, model)
-    # print(f"Fetched image URL: {image_url}")
+    # Sorting and validation
+    sort_field = request.args.get('sort', 'fuelcost08')  # Default sort field
+    sort_order = request.args.get('order', 'asc').lower()  # Default to ascending order
+    valid_sort_fields = ['year', 'fuelcost08']  # Valid fields for sorting
 
-    # Sorting
-    sort_field = request.args.get('sort', 'fuelcost08')
-    if sort_field == "year":  # Assuming year is the problematic field
+    if sort_field not in valid_sort_fields:
+        sort_field = 'fuelcost08'  # Default to fuel cost if the field is invalid
+
+    # Ensure proper mapping for sortable fields like "year"
+    if sort_field == 'year':
         sort_field += ".keyword"
-    sort_order = request.args.get('order', 'asc')  # Default sort order
+
+    if sort_order not in ['asc', 'desc']:
+        sort_order = 'asc'  # Default order if invalid
 
     # Pagination
     page = int(request.args.get('page', 1))  # Default to page 1
-    page_size = int(request.args.get('size', 10))  # Default page size
-    # Calculate the starting index for pagination
-    start = (page - 1) * page_size
+    page_size = int(request.args.get('size', 9))  # Default page size
+    start = (page - 1) * page_size  # Calculate the starting index
 
     # Elasticsearch query with filters
     query = {"bool": {"must": [], "filter": []}}
@@ -106,12 +111,18 @@ def search():
             size=page_size,
             sort=[{sort_field: {"order": sort_order}}]
         )
-        filtered_vehicles = [hit['_source'] for hit in response['hits']['hits']]
+        filtered_vehicles = [
+            {
+                **hit['_source'],
+                "id": hit['_id'] 
+            }
+            for hit in response['hits']['hits']
+        ]
         total_results = response['hits']['total']['value']  # Total number of results
 
         # Add images to vehicles
         for vehicle in filtered_vehicles:
-            vehicle['image_url'] = fetch_car_image_with_cache(vehicle['make'], vehicle['model']) or "static/images/placeholder.jpg"
+            vehicle['image_url'] = ensure_url_scheme(fetch_car_image_with_cache(vehicle['make'], vehicle['model'])) or "static/images/toyota_generic.jpg"
             print(f"Vehicle: {vehicle['make']} {vehicle['model']} - Image URL: {vehicle['image_url']}")  # Debugging
 
         # Render results in a template
@@ -129,14 +140,18 @@ def search():
         return render_template('search_results.html', error=str(e))
 
 
-@app.route('/vehicle/<int:id>', methods=['GET'])
+@app.route('/vehicle/<id>', methods=['GET'])
 def vehicle_details(id):
     try:
+        # Fetch the vehicle details from Elasticsearch by document ID
         response = es.get(index="vehicles", id=id)
-        return render_template('vehicle_details.html', vehicle=response['_source'])
-    except Exception as e:
-        return "Vehicle not found", 404
+        vehicle = response['_source']
 
+        # Render the details page
+        return render_template('vehicle_details.html', vehicle=vehicle)
+    except Exception as e:
+        print(f"Error fetching vehicle details for ID {id}: {e}")
+        return render_template('vehicle_details.html', error="Vehicle not found"), 404
 
 
 if __name__ == '__main__':
