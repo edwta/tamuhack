@@ -1,7 +1,3 @@
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 function search() {
   // Declare variables
   var input, filter, table, tr, td, i, txtValue;
