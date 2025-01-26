@@ -8,7 +8,7 @@
     <!-- Include Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 font-sans leading-normal tracking-normal">
+<body class="bg-gray-100 dark:bg-gray-900 font-sans leading-normal tracking-normal" style="padding-bottom: 75px">
 
     <!-- Header -->
     <header class="bg-blue-600 text-white py-4 shadow">
@@ -28,13 +28,13 @@
         {% if error %}
             <!-- Error Message -->
             <div class="text-center">
-                <p class="text-red-600 font-medium dark:text-gray-200 text-lg">{{ error }}</p>
+                <p class="text-red-600 font-medium text-lg">{{ error }}</p>
             </div>
         {% elif vehicles %}
             <!-- Total Results -->
             <div class="mb-4">
-                <p class="text-gray-700 text-lg font-medium">Total Results: {{ total_results }}</p>
-                <p class="text-gray-500 text-sm">Page {{ page }} of {{ (total_results // page_size) + (1 if total_results % page_size > 0 else 0) }}</p>
+                <p class="text-gray-700 dark:text-gray-200 text-lg font-medium">Total Results: {{ total_results }}</p>
+                <p class="text-gray-500 dark:text-gray-400 text-sm">Page {{ page }} of {{ (total_results // page_size) + (1 if total_results % page_size > 0 else 0) }}</p>
             </div>
 
             <!-- Vehicle List -->
