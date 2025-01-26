@@ -2,7 +2,10 @@
 @plugin "daisyui";
 
 
-
+.image {
+  width: 600px;
+  height: 350px;
+}
 .topnav {
     overflow: hidden;
     background-color: #A9A9A9;
