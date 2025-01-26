@@ -1,3 +1,7 @@
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 function search() {
   // Declare variables
   var input, filter, table, tr, td, i, txtValue;
@@ -29,5 +33,28 @@ function modalSet(i) {
     }
     document.getElementById('carName').textContent = info[0].textContent;
     document.getElementById('carDesc').textContent = desc;
+    if (document.getElementById("compare").style.visibility == "visible") {
+        document.getElementById("compare").style.visibility = "hidden";
+        document.getElementById('compName').style.display = "block";
+        document.getElementById('compDesc').style.display = "block";
+        document.getElementById('divider').style.display = "block";
+
+    }
     document.getElementById('popup').showModal();
+}
+
+function setComp() {
+    document.getElementById("compare").style.visibility = "visible";
+    document.getElementById("compareButton").style.display = "none";
+    document.getElementById('compName').textContent = document.getElementById('carName').textContent;
+    document.getElementById('compDesc').textContent = document.getElementById('carDesc').textContent;
+}
+
+function showComp() {
+    document.getElementById('compName').textContent = "";
+    document.getElementById('compDesc').textContent = "";
+    document.getElementById('compName').style.display = "none";
+    document.getElementById('compDesc').style.display = "none";
+    document.getElementById('divider').style.display = "none";
+    document.getElementById("compareButton").style.display = "block";
 }

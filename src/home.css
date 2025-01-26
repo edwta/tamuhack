@@ -68,22 +68,33 @@
   }
 
   #carTable tr:hover {
-    background-color: #f1f1f1a2;
+    background-color: #f1f1f153;
   }
 
   #carTable img {
-    height: 300px;
-    width: 400px;
+    height: 600px;
+    width: 800px;
   }
 
   .title {
     font-weight: bold;
-    display: inline;
-    text-align: center;
+    visibility: visible;
+    display: flex;
+    max-width: 200px;
+    justify-content: center;
   }
 
-  #carName, #carDesc {
+  #carName, #carDesc, #compName, #compDesc {
     text-align: center;
     white-space: pre-line;
   }
 
+  #compare {
+    display: flex;
+    align-items: center;
+    visibility: hidden;
+  }
+
+  #divider {
+    padding: 10px;
+  }
