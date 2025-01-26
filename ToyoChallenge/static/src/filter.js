@@ -26,18 +26,20 @@ function search() {
 //Open a modal view with information about selected car
 function modalSet(i) {
     var desc = "";
-    list = document.getElementById(i);
+    list = document.getElementById(`info${i}`);
     info = list.getElementsByTagName("li")
     for (x = 1; x < info.length; x++) {
         desc += info[x].textContent + "\n"; 
     }
     document.getElementById('carName').textContent = info[0].textContent;
     document.getElementById('carDesc').textContent = desc;
+    document.getElementById('carImage').src = i;
     //If comparing two cars, show second car's details with the first car
     if (document.getElementById("compare").style.visibility == "visible") {
         document.getElementById("compare").style.visibility = "hidden";
         document.getElementById('compName').style.display = "block";
         document.getElementById('compDesc').style.display = "block";
+        document.getElementById('compImage').style.display = "block";
         document.getElementById('divider').style.display = "block";
 
     }
@@ -49,6 +51,7 @@ function setComp() {
     document.getElementById("compare").style.visibility = "visible";
     document.getElementById("compareButton").style.display = "none";
     document.getElementById('compName').textContent = document.getElementById('carName').textContent;
+    document.getElementById('compImage').src = document.getElementById('carImage').src;
     document.getElementById('compDesc').textContent = document.getElementById('carDesc').textContent;
 }
 
@@ -56,8 +59,10 @@ function setComp() {
 function showComp() {
     document.getElementById('compName').textContent = "";
     document.getElementById('compDesc').textContent = "";
+    document.getElementById('compImage').src = "";
     document.getElementById('compName').style.display = "none";
     document.getElementById('compDesc').style.display = "none";
+    document.getElementById('compImage').style.display = "none";
     document.getElementById('divider').style.display = "none";
     document.getElementById("compareButton").style.display = "block";
 }
