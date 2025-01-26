@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare Cars</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+    <header class="bg-gray-900 text-white py-4 text-center">
+        <h1 class="text-3xl font-bold">Compare Cars</h1>
+    </header>
+
+    <main class="container mx-auto mt-6">
+        {% if error %}
+            <p class="text-red-500 text-center">{{ error }}</p>
+        {% else %}
+            <div class="grid grid-cols-1 md:grid-cols-{{ vehicles|length }} gap-4">
+                {% for vehicle in vehicles %}
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4">
+                        <img src="{{ vehicle.image_url }}" alt="{{ vehicle.model }}" class="w-full h-48 object-cover rounded-md">
+                        <h2 class="text-xl font-bold mt-4">{{ vehicle.make }} {{ vehicle.model }}</h2>
+                        <p>Year: {{ vehicle.year }}</p>
+                        <p>Fuel Type: {{ vehicle.fueltype }}</p>
+                        <p>Drive Type: {{ vehicle.drive }}</p>
+                        <p>Fuel Cost (Annual): ${{ vehicle.fuelcost08 }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </main>
+
+    <footer class="bg-gray-900 text-white py-4 text-center mt-8">
+        <button 
+            class="bg-red-600 px-4 py-2 rounded-md hover:bg-red-700" 
+            onclick="clearCompareList()">
+            Clear Comparison List
+        </button>
+    </footer>
+
+    <script>
+        function clearCompareList() {
+            localStorage.removeItem('compareList');
+            alert('Comparison list cleared.');
+            window.location.href = '/index';
+        }
+    </script>
+</body>
+</html>

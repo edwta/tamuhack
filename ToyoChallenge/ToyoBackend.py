@@ -40,20 +40,27 @@ def home():
     return render_template('about.html')
 
 
-@app.route('/index')
-def about():
-    return render_template('index.html')
-
-
-@app.route('/api/vehicles', methods=['GET'])
-def get_vehicles():
-    # Elasticsearch query to retrieve all vehicles
+@app.route('/index', methods=['GET'])
+def index():
     try:
-        response = es.search(index="vehicles", query={"match_all": {}})
-        vehicles = [hit['_source'] for hit in response['hits']['hits']]
-        return jsonify(vehicles), 200
+        response = es.search(
+            index="vehicles",
+            query={"match": {"make": "Toyota"}},
+            size=25  # Fetch a limited number of Toyota cars
+        )
+        cars = [hit['_source'] for hit in response['hits']['hits']]
+        for car in cars:
+            car['year'] = car.get('year', 'N/A')
+            car['fueltype'] = car.get('fueltype', 'Unknown')
+            car['drive'] = car.get('drive', 'Unknown')
+            car['fuelcost08'] = car.get('fuelcost08', 'N/A')
+            car['image_url'] = fetch_car_image_with_cache(car['make'], car['model']) or "/static/images/toyota_generic.jpg"
+        return render_template('index.html', cars=cars)
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        print(f"Error fetching Toyota cars: {e}")
+        return render_template('index.html', cars=[], error="Unable to fetch cars.")
+
+
 
 
 @app.route('/search', methods=['GET'])
@@ -67,6 +74,9 @@ def search():
     model = request.args.get('model', '').lower()
     price = request.args.get('price', type=int)
     year = request.args.get('year', type=int)
+    price_min = request.args.get('price_min', type=int)
+    price_max = request.args.get('price_max', type=int)
+    fueltype = request.args.get('fueltype', '').lower()
 
     # Sorting and validation
     sort_field = request.args.get('sort', 'fuelcost08')  # Default sort field
@@ -99,6 +109,12 @@ def search():
         query["bool"]["filter"].append({"range": {"fuelcost08": {"lte": price}}})
     if year:
         query["bool"]["filter"].append({"term": {"year": str(year)}})
+    if price_min is not None:
+        query["bool"]["filter"].append({"range": {"price": {"gte": price_min}}})
+    if price_max is not None:
+        query["bool"]["filter"].append({"range": {"price": {"lte": price_max}}})
+    if fueltype:
+        query["bool"]["must"].append({"match": {"fueltype": fueltype}})
 
     print("Constructed Query:", query)  # Debugging log
 
@@ -152,6 +168,29 @@ def vehicle_details(id):
     except Exception as e:
         print(f"Error fetching vehicle details for ID {id}: {e}")
         return render_template('vehicle_details.html', error="Vehicle not found"), 404
+
+
+@app.route('/compare')
+def compare():
+    ids = request.args.get('ids', '').split(',')
+    
+    if not ids or ids == ['']:
+        return render_template('compare.html', error="No cars selected for comparison.")
+    
+    try:
+        query = {
+            "query": {
+                "terms": {
+                    "id": ids
+                }
+            }
+        }
+        response = es.search(index="vehicles", body=query)
+        vehicles = [hit['_source'] for hit in response['hits']['hits']]
+        return render_template('compare.html', vehicles=vehicles)
+    except Exception as e:
+        return render_template('compare.html', error=f"Error fetching vehicles: {e}")
+
 
 
 if __name__ == '__main__':

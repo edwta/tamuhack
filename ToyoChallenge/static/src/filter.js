@@ -61,3 +61,45 @@ function showComp() {
     document.getElementById('divider').style.display = "none";
     document.getElementById("compareButton").style.display = "block";
 }
+
+function addToCompare(vehicleId) {
+  let compareList = JSON.parse(localStorage.getItem("compareList")) || [];
+  
+  if (!compareList.includes(vehicleId)) {
+      compareList.push(vehicleId);
+      alert("Vehicle added to comparison!");
+  } else {
+      alert("Vehicle is already in comparison list.");
+  }
+  
+  localStorage.setItem("compareList", JSON.stringify(compareList));
+}
+
+function compareCar() {
+  const carName = document.getElementById('carName').textContent;
+  const carId = [...document.querySelectorAll('ul')]
+      .find(ul => ul.querySelector('.title')?.textContent === carName)?.id.replace('info', '');
+
+  if (!carId) return alert('Unable to add car to comparison.');
+
+  let compareList = JSON.parse(localStorage.getItem('compareList')) || [];
+  
+  if (compareList.includes(carId)) {
+      alert('Car is already in the comparison list.');
+      return;
+  }
+
+  if (compareList.length >= 3) {
+      alert('You can only compare up to 3 cars at a time.');
+      return;
+  }
+
+  compareList.push(carId);
+  localStorage.setItem('compareList', JSON.stringify(compareList));
+  alert(`${carName} added to comparison list.`);
+}
+
+function clearCompareList() {
+  localStorage.removeItem("compareList");
+  alert("Comparison list cleared.");
+}
