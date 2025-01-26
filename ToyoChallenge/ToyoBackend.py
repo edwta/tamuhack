@@ -5,6 +5,10 @@ from elasticsearch_client import get_elasticsearch_client
 from utils import fetch_car_image
 from utils import fetch_car_image_with_cache
 from utils import ensure_url_scheme
+from toyotaDataExtractor2 import getCarLinks
+from toyotaDataExtractor2 import getCarData
+from bs4 import BeautifulSoup
+import requests
 
 app = Flask(__name__)
 es = get_elasticsearch_client()  # Connect to Elasticsearch (default: localhost:9200)
@@ -31,6 +35,47 @@ def index_vehicle_data():
         print("Error: JSON file not found.")
     except json.JSONDecodeError:
         print("Error: Failed to decode JSON.")
+
+def construct_car_url(model):
+    """
+    Constructs a URL to search for the car on the Autotrader website.
+    Args:
+        model (str): The model name of the car.
+    Returns:
+        str: The constructed URL.
+    """
+    base_url = "https://www.autotrader.com/cars-for-sale/all-cars/toyota/"
+    # Format the model name for the query
+    formatted_model = model.replace(" ", "+").lower()  # Replace spaces with '+' and convert to lowercase
+    search_url = f"{base_url}?query={formatted_model}"
+    return search_url
+
+def fetch_price_dynamically(model):
+    """
+    Fetches the price of a car dynamically by constructing the search URL
+    and scraping the first result.
+    Args:
+        model (str): The model name of the car.
+    Returns:
+        str: The price of the car.
+    """
+    try:
+        # Construct the URL
+        car_url = construct_car_url(model)
+
+        # Fetch the page
+        page = requests.get(car_url, timeout=10)
+        soup = BeautifulSoup(page.text, 'html.parser')
+
+        # Extract the price from the first listing
+        price_element = soup.find(attrs={'data-cmp': 'firstPrice'})
+        if price_element:
+            return price_element.text.strip()
+
+        return "Price not available"
+    except Exception as e:
+        print(f"Error fetching price for {model}: {e}")
+        return "Error fetching price"
 
 
 # ROUTES
@@ -72,51 +117,27 @@ def search():
     # Collect query parameters
     make = request.args.get('make', '').lower()
     model = request.args.get('model', '').lower()
-    price = request.args.get('price', type=int)
-    year = request.args.get('year', type=int)
     price_min = request.args.get('price_min', type=int)
     price_max = request.args.get('price_max', type=int)
     fueltype = request.args.get('fueltype', '').lower()
-
-    # Sorting and validation
-    sort_field = request.args.get('sort', 'fuelcost08')  # Default sort field
-    sort_order = request.args.get('order', 'asc').lower()  # Default to ascending order
-    valid_sort_fields = ['year', 'fuelcost08']  # Valid fields for sorting
-
-    if sort_field not in valid_sort_fields:
-        sort_field = 'fuelcost08'  # Default to fuel cost if the field is invalid
-
-    # Ensure proper mapping for sortable fields like "year"
-    if sort_field == 'year':
-        sort_field += ".keyword"
-
-    if sort_order not in ['asc', 'desc']:
-        sort_order = 'asc'  # Default order if invalid
-
-    # Pagination
+    year = request.args.get('year', type=int)
+    sort_field = request.args.get('sort', 'price')  # Default to price sort
+    sort_order = request.args.get('order', 'asc').lower()  # Default ascending order
     page = int(request.args.get('page', 1))  # Default to page 1
     page_size = int(request.args.get('size', 9))  # Default page size
     start = (page - 1) * page_size  # Calculate the starting index
 
-    # Elasticsearch query with filters
+    # Elasticsearch base query
     query = {"bool": {"must": [], "filter": []}}
 
     if make:
         query["bool"]["must"].append({"match": {"make": make}})
     if model:
         query["bool"]["must"].append({"match": {"model": model}})
-    if price:
-        query["bool"]["filter"].append({"range": {"fuelcost08": {"lte": price}}})
     if year:
         query["bool"]["filter"].append({"term": {"year": str(year)}})
-    if price_min is not None:
-        query["bool"]["filter"].append({"range": {"price": {"gte": price_min}}})
-    if price_max is not None:
-        query["bool"]["filter"].append({"range": {"price": {"lte": price_max}}})
     if fueltype:
         query["bool"]["must"].append({"match": {"fueltype": fueltype}})
-
-    print("Constructed Query:", query)  # Debugging log
 
     # Elasticsearch search with sorting and pagination
     try:
@@ -125,35 +146,82 @@ def search():
             query=query,
             from_=start,
             size=page_size,
-            sort=[{sort_field: {"order": sort_order}}]
+            sort=[{"year.keyword": {"order": sort_order}}]  # Sorting by year or other valid fields
         )
+
         filtered_vehicles = [
             {
                 **hit['_source'],
-                "id": hit['_id'] 
+                "id": hit['_id']
             }
             for hit in response['hits']['hits']
         ]
-        total_results = response['hits']['total']['value']  # Total number of results
 
-        # Add images to vehicles
+        # Dynamically fetch and filter prices
+        # Dynamically fetch and filter prices
+        prices = []
         for vehicle in filtered_vehicles:
-            vehicle['image_url'] = ensure_url_scheme(fetch_car_image_with_cache(vehicle['make'], vehicle['model'])) or "static/images/toyota_generic.jpg"
-            print(f"Vehicle: {vehicle['make']} {vehicle['model']} - Image URL: {vehicle['image_url']}")  # Debugging
+            try:
+                # Image search
+                vehicle['image_url'] = ensure_url_scheme(
+                    fetch_car_image_with_cache(vehicle['make'], vehicle['model'])
+                ) or "static/images/toyota_generic.jpg"
 
-        # Render results in a template
+                # Fetch the price using the scraper (assumes model is sufficient)
+                vehicle_price = fetch_price_dynamically(vehicle['model'])
+                
+                # Ensure price is an integer
+                vehicle['price'] = int(vehicle_price.replace("$", "").replace(",", "").strip()) if vehicle_price else None
+                
+                # Add to price list for filtering and range calculation
+                if vehicle['price'] is not None:
+                    prices.append(vehicle['price'])
+            except ValueError:
+                # Handle any conversion issues (e.g., invalid price format)
+                vehicle['price'] = None
+
+        # Apply price filtering locally
+        if price_min is not None or price_max is not None:
+            filtered_vehicles = [
+                vehicle for vehicle in filtered_vehicles
+                if vehicle.get('price') is not None and
+                (price_min is None or vehicle['price'] >= price_min) and
+                (price_max is None or vehicle['price'] <= price_max)
+            ]
+
+        # Sort locally by price if specified
+        if sort_field == 'price':
+            filtered_vehicles = sorted(
+                filtered_vehicles,
+                key=lambda x: x.get('price', float('inf')),
+                reverse=(sort_order == 'desc')
+            )
+
+        # Calculate min and max price for UI
+        min_price = min(prices) if prices else 0
+        max_price = max(prices) if prices else 0
+
+        # Paginate results
+        total_results = len(filtered_vehicles)
+        paginated_vehicles = filtered_vehicles[start:start + page_size]
+
+        # Render results
         return render_template(
             'search_results.html',
-            vehicles=filtered_vehicles,
+            vehicles=paginated_vehicles,
             total_results=total_results,
             page=page,
             page_size=page_size,
             sort=sort_field,
-            order=sort_order
+            order=sort_order,
+            min_price=min_price,
+            max_price=max_price
         )
+
     except Exception as e:
         print(f"Error during search: {e}")
         return render_template('search_results.html', error=str(e))
+
 
 
 @app.route('/vehicle/<id>', methods=['GET'])

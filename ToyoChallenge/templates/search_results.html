@@ -31,28 +31,48 @@
                 <p class="text-red-600 font-medium text-lg">{{ error }}</p>
             </div>
         {% elif vehicles %}
-            <!-- Total Results -->
-            <div class="mb-4">
-                <p class="text-gray-700 dark:text-gray-200 text-lg font-medium">Total Results: {{ total_results }}</p>
-                <p class="text-gray-500 dark:text-gray-400 text-sm">Page {{ page }} of {{ (total_results // page_size) + (1 if total_results % page_size > 0 else 0) }}</p>
+            <!-- Sorting Options -->
+            <div class="mb-6 flex justify-between items-center">
+                <div>
+                    <p class="text-gray-700 dark:text-gray-200 text-lg font-medium">Total Results: {{ total_results }}</p>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm">Page {{ page }} of {{ (total_results // page_size) + (1 if total_results % page_size > 0 else 0) }}</p>
+                </div>
+                <form method="get" action="/search" class="flex items-center space-x-4">
+                    <input type="hidden" name="make" value="{{ request.args.get('make', '') }}">
+                    <input type="hidden" name="model" value="{{ request.args.get('model', '') }}">
+                    <input type="hidden" name="price" value="{{ request.args.get('price', '') }}">
+                    <input type="hidden" name="year" value="{{ request.args.get('year', '') }}">
+                    <input type="hidden" name="page" value="{{ page }}">
+                    <input type="hidden" name="size" value="{{ page_size }}">
+                    <label for="sort" class="text-gray-700 dark:text-gray-200 font-medium">Sort by:</label>
+                    <select name="sort" id="sort" class="border rounded-lg p-2 dark:bg-gray-800 dark:text-white">
+                        <option value="fuelcost08" {% if sort == 'fuelcost08' %}selected{% endif %}>Fuel Cost</option>
+                        <option value="year.keyword" {% if sort == 'year.keyword' %}selected{% endif %}>Year</option>
+                        <option value="price" {% if sort == 'price' %}selected{% endif %}>Price</option>
+                    </select>
+                    <select name="order" id="order" class="border rounded-lg p-2 dark:bg-gray-800 dark:text-white">
+                        <option value="asc" {% if order == 'asc' %}selected{% endif %}>Ascending</option>
+                        <option value="desc" {% if order == 'desc' %}selected{% endif %}>Descending</option>
+                    </select>
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                        Apply
+                    </button>
+                </form>
             </div>
 
             <!-- Vehicle List -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {% for vehicle in vehicles %}
-                    <!-- Make the entire card clickable to link to the vehicle details page -->
                     <a href="/vehicle/{{ vehicle.id }}" class="block bg-gray-50 border border-gray-200 rounded-lg shadow p-4 hover:shadow-lg transition">
-                        <!-- Vehicle Image -->
                         <img src="{{ vehicle.image_url }}" 
                              alt="{{ vehicle.model }}" 
                              class="w-full h-48 object-cover rounded-lg mb-4"
                              onerror="this.onerror=null; this.src='/static/images/toyota_generic.jpg';">
-
-                        <!-- Vehicle Details -->
                         <h2 class="text-xl font-semibold text-gray-800">{{ vehicle.make }} {{ vehicle.model }}</h2>
                         <p class="text-gray-600 mt-2">Year: {{ vehicle.year }}</p>
                         <p class="text-gray-600">Fuel Cost: ${{ vehicle.fuelcost08 }}</p>
                         <p class="text-gray-600">Drive: {{ vehicle.drive }}</p>
+                        <p class="text-green-600 font-bold mt-2">Price: {{ vehicle.price or "Not Available" }}</p>
                     </a>
                 {% endfor %}
             </div>
@@ -60,20 +80,19 @@
             <!-- Pagination -->
             <div class="mt-6 flex justify-between items-center">
                 {% if page > 1 %}
-                    <a href="?make={{ request.args.get('make', '') }}&model={{ request.args.get('model', '') }}&price={{ request.args.get('price', '') }}&year={{ request.args.get('year', '') }}&page={{ page - 1 }}&size={{ page_size }}&sort={{ request.args.get('sort', '') }}&order={{ request.args.get('order', 'asc') }}"
+                    <a href="?make={{ request.args.get('make', '') }}&model={{ request.args.get('model', '') }}&price={{ request.args.get('price', '') }}&year={{ request.args.get('year', '') }}&page={{ page - 1 }}&size={{ page_size }}&sort={{ sort }}&order={{ order }}"
                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
                         Previous
                     </a>
                 {% endif %}
                 {% if total_results > page * page_size %}
-                    <a href="?make={{ request.args.get('make', '') }}&model={{ request.args.get('model', '') }}&price={{ request.args.get('price', '') }}&year={{ request.args.get('year', '') }}&page={{ page + 1 }}&size={{ page_size }}&sort={{ request.args.get('sort', '') }}&order={{ request.args.get('order', 'asc') }}"
+                    <a href="?make={{ request.args.get('make', '') }}&model={{ request.args.get('model', '') }}&price={{ request.args.get('price', '') }}&year={{ request.args.get('year', '') }}&page={{ page + 1 }}&size={{ page_size }}&sort={{ sort }}&order={{ order }}"
                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
                         Next
                     </a>
                 {% endif %}
             </div>
         {% else %}
-            <!-- No Results Message -->
             <div class="text-center">
                 <p class="text-gray-700 dark:text-gray-200 font-medium text-lg">No results found. Try adjusting your search criteria.</p>
             </div>
