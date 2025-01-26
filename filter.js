@@ -8,7 +8,7 @@ function search() {
 
   // Loop through all table rows, and hide those who don't match the search query
   for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[0];
+    td = tr[i].getElementsByTagName("td")[0].getElementsByTagName("li")[0];
     if (td) {
       txtValue = td.textContent || td.innerText;
       if (txtValue.toUpperCase().indexOf(filter) > -1) {
@@ -18,4 +18,16 @@ function search() {
       }
     }
   }
+}
+
+function modalSet(i) {
+    var desc = "";
+    list = document.getElementById(i);
+    info = list.getElementsByTagName("li")
+    for (x = 1; x < info.length; x++) {
+        desc += info[x].textContent + "\n"; 
+    }
+    document.getElementById('carName').textContent = info[0].textContent;
+    document.getElementById('carDesc').textContent = desc;
+    document.getElementById('popup').showModal();
 }

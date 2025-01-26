@@ -1,5 +1,5 @@
 @import "tailwindcss";
-
+@plugin "daisyui";
 
 .topnav {
     overflow: hidden;
@@ -68,7 +68,7 @@
   }
 
   #carTable tr:hover {
-    background-color: #f1f1f1;
+    background-color: #f1f1f1a2;
   }
 
   #carTable img {
@@ -81,3 +81,9 @@
     display: inline;
     text-align: center;
   }
+
+  #carName, #carDesc {
+    text-align: center;
+    white-space: pre-line;
+  }
+
