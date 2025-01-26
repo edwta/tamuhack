@@ -2,6 +2,8 @@ import os
 import json
 from flask import Flask, render_template, jsonify, request
 from elasticsearch_client import get_elasticsearch_client
+from utils import fetch_car_image
+from utils import fetch_car_image_with_cache
 
 app = Flask(__name__)
 es = get_elasticsearch_client()  # Connect to Elasticsearch (default: localhost:9200)
@@ -65,6 +67,10 @@ def search():
     price = request.args.get('price', type=int)
     year = request.args.get('year', type=int)
 
+    # Image search with Google Search API
+    # image_url = fetch_car_image(make, model)
+    # print(f"Fetched image URL: {image_url}")
+
     # Sorting
     sort_field = request.args.get('sort', 'fuelcost08')
     if sort_field == "year":  # Assuming year is the problematic field
@@ -102,13 +108,21 @@ def search():
         )
         filtered_vehicles = [hit['_source'] for hit in response['hits']['hits']]
         total_results = response['hits']['total']['value']  # Total number of results
+
+        # Add images to vehicles
+        for vehicle in filtered_vehicles:
+            vehicle['image_url'] = fetch_car_image_with_cache(vehicle['make'], vehicle['model']) or "static/images/placeholder.jpg"
+            print(f"Vehicle: {vehicle['make']} {vehicle['model']} - Image URL: {vehicle['image_url']}")  # Debugging
+
         # Render results in a template
         return render_template(
             'search_results.html',
             vehicles=filtered_vehicles,
             total_results=total_results,
             page=page,
-            page_size=page_size
+            page_size=page_size,
+            sort=sort_field,
+            order=sort_order
         )
     except Exception as e:
         print(f"Error during search: {e}")

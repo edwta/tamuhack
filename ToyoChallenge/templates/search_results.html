@@ -20,6 +20,37 @@
 
     <!-- Main Content -->
     <main class="container mx-auto mt-8 p-4 bg-white shadow-lg rounded-lg">
+        <!-- Sorting Options -->
+        <form action="/search" method="get" class="flex flex-wrap items-center gap-4 mb-6">
+            <!-- Preserve Existing Query Parameters -->
+            <input type="hidden" name="make" value="{{ request.args.get('make', '') }}">
+            <input type="hidden" name="model" value="{{ request.args.get('model', '') }}">
+            <input type="hidden" name="price" value="{{ request.args.get('price', '') }}">
+            <input type="hidden" name="year" value="{{ request.args.get('year', '') }}">
+            <input type="hidden" name="page" value="1"> <!-- Reset to page 1 on new sort -->
+
+            <!-- Sorting Options -->
+            <div>
+                <label for="sort" class="block text-gray-700 font-medium">Sort By:</label>
+                <select name="sort" id="sort" class="p-2 border border-gray-300 rounded-lg">
+                    <option value="year" {% if request.args.get('sort') == 'year' %}selected{% endif %}>Year</option>
+                    <option value="fuelcost08" {% if request.args.get('sort') == 'fuelcost08' %}selected{% endif %}>Fuel Cost</option>
+                </select>
+            </div>
+            <div>
+                <label for="order" class="block text-gray-700 font-medium">Order:</label>
+                <select name="order" id="order" class="p-2 border border-gray-300 rounded-lg">
+                    <option value="asc" {% if request.args.get('order') == 'asc' %}selected{% endif %}>Ascending</option>
+                    <option value="desc" {% if request.args.get('order') == 'desc' %}selected{% endif %}>Descending</option>
+                </select>
+            </div>
+            <button 
+                type="submit" 
+                class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                Apply
+            </button>
+        </form>
+
         {% if error %}
             <!-- Error Message -->
             <div class="text-center">
@@ -29,12 +60,23 @@
             <!-- Total Results -->
             <div class="mb-4">
                 <p class="text-gray-700 text-lg font-medium">Total Results: {{ total_results }}</p>
+                <p class="text-gray-500 text-sm">Page {{ page }} of {{ (total_results // page_size) + (1 if total_results % page_size > 0 else 0) }}</p>
             </div>
 
             <!-- Vehicle List -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {% for vehicle in vehicles %}
                     <div class="bg-gray-50 border border-gray-200 rounded-lg shadow p-4">
+                        <!-- Display Image URL for Debugging -->
+                        <p class="text-sm text-gray-500 mb-2">{{ vehicle.image_url }}</p>
+
+                        {% if vehicle.image_url %}
+                            <img src="{{ vehicle.image_url }}" alt="{{ vehicle.model }}" class="w-full h-32 object-cover rounded-lg mb-4">
+                        {% else %}
+                            <div class="w-full h-32 bg-gray-300 rounded-lg mb-4 flex items-center justify-center">
+                                <p class="text-gray-600">No Image Available</p>
+                            </div>
+                        {% endif %}
                         <h2 class="text-xl font-semibold text-gray-800">{{ vehicle.make }} {{ vehicle.model }}</h2>
                         <p class="text-gray-600 mt-2">Year: {{ vehicle.year }}</p>
                         <p class="text-gray-600">Fuel Cost: ${{ vehicle.fuelcost08 }}</p>
@@ -46,13 +88,13 @@
             <!-- Pagination -->
             <div class="mt-6 flex justify-between items-center">
                 {% if page > 1 %}
-                    <a href="?make={{ request.args.make }}&model={{ request.args.model }}&price={{ request.args.price }}&year={{ request.args.year }}&page={{ page - 1 }}&size={{ page_size }}"
+                    <a href="?make={{ request.args.get('make', '') }}&model={{ request.args.get('model', '') }}&price={{ request.args.get('price', '') }}&year={{ request.args.get('year', '') }}&page={{ page - 1 }}&size={{ page_size }}&sort={{ request.args.get('sort', '') }}&order={{ request.args.get('order', '') }}"
                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
                         Previous
                     </a>
                 {% endif %}
                 {% if total_results > page * page_size %}
-                    <a href="?make={{ request.args.make }}&model={{ request.args.model }}&price={{ request.args.price }}&year={{ request.args.year }}&page={{ page + 1 }}&size={{ page_size }}"
+                    <a href="?make={{ request.args.get('make', '') }}&model={{ request.args.get('model', '') }}&price={{ request.args.get('price', '') }}&year={{ request.args.get('year', '') }}&page={{ page + 1 }}&size={{ page_size }}&sort={{ request.args.get('sort', '') }}&order={{ request.args.get('order', '') }}"
                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
                         Next
                     </a>
