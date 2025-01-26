@@ -1,11 +1,36 @@
 @import "tailwindcss";
 
-
+.image {
+  display: block;
+  width: 600px;
+  height: 350px;
+}
+#list {
+  transition: margin-left 250ms;
+}
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+.fadeI {
+  animation: fadeIn 1s;
+}
 .topnav {
     overflow: hidden;
     background-color: #A9A9A9;
   }
+.lineb {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
   
+  
+}
+.linew {
+  width: 60vw;
+  border: 1px solid gray;
+}
   /* Style the links inside the navigation bar */
   .topnav a {
     float: left;

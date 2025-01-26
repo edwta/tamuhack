@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="src/output.css">
+    <link rel="stylesheet" href="src/home.css">
 </head>
 <body class="height-5000">
     <nav class="bg-white dark:bg-gray-900 w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
@@ -48,17 +49,17 @@
     </div>
       </nav>
     <br>
-    <br>
-    <div class="flex items-center justify-center flex-col">
+    
+    <div class="flex items-center justify-center flex-row">
         <h1 class="animate-pulse  items-center justify-center mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Search for your desired Toyota here!</h1>
-        
+        <img class="size-40" src="images/toyota-logo-png-25.png">
         
     
     </div>
-    <div class=" flex flex-row justify-center ">
+    <div class=" flex flex-row justify-center bg-stone-200">
         <img class="h-156 w-240 object-fit" src="images/24-toyota-prius-01.jpg">
         <div class="flex flex-col justify-center align-center">
-            <p class="p-3 font-semibold">Easy to find any car of your choice with just a search</p>
+            <p class="p-3 font-semibold text-xl">Easy to find any car of your choice with just a search</p>
             <img src="images/Screen Shot 2025-01-25 at 4.13.54 PM.png">
             <a class="p-3 text-center text-blue-600 font-extrabold" href="index.html">Start now!</a>
         </div>
@@ -66,21 +67,40 @@
         
     </div>
     <br>
+    <div class="lineb"><div class="linew"></div></div>
     <br>
 
-    <div class="flex flex-row justify-center">
-        <div class="flex flex-col justify-center">
-            <p class="p-3 font-semibold">Scroll through many options and click on the one that you like</p>
+    <div class="flex flex-row justify-center bg-stone-200">
+        <div class="flex flex-col justify-center align-center">
+            <p class="p-5 font-semibold text-2xl">Scroll through options</p>
         </div>
         
-        <img class="w-240 object-fit" src="images/Screen Shot 2025-01-25 at 4.20.51 PM.png">
+        <img class="w-300 object-fit" src="images/Screen Shot 2025-01-25 at 4.20.51 PM.png">
 
     </div>
     <br>
+    <div class="lineb"><div class="linew"></div></div>
     <br>
-    <div class="flex flex-col">
-        <div></div>
+    <div id="carousel" class="relative bg-gray-700 height-400">
+        <h2 class="p-2 text-center font-bold text-white">Trending Toyota models to get you started</h2>
+        <button id="left" class="hover:bg-gray-400 rounded-md left-1 top-60 absolute border-1 bg-gray-300">&larr;</button>
+        <div id="container" class="p-5 w-150 h-100 overflow-hidden">
+            <ul id="list" class="flex flex-row gap-x-15 w-500 p-5">
+                <li class="inline-block w-150 h-100"><img id="" class="image" src="images/Screen Shot 2025-01-25 at 10.33.05 PM.png"></li>
+                <li class="inline-block w-150 h-100"><img class="image" src="images/2024-Toyota-Camry-XSE-Hybrid-front-view-9.jpg"></li>
+                <li class="inline-block w-150 h-100"><img class="image" src="images/24-toyota-prius-01.jpg"></li>
+                
+            </ul>
+        </div>
+        <button id="right" class="hover:bg-gray-400 left-153 top-60 absolute border-1  bg-gray-300 rounded-md ">&rarr;</button>
+        
+        <h2 class="fadeI absolute top-25 text-4xl left-200 font-bold text-red-400 decoration-red-100" id="desc">TOYOTA CAMRY</h2>
+        <p id="descM" class="fadeI absolute text-red-300 font-semibold top-50 left-200"></p>
     </div>
+    <div class="h-32"></div>
+    <script src="other.js"></script>
+    
+    
       
     
 </body>
