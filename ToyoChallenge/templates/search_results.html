@@ -1,22 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Search Results</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+
+    <!-- Include Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <h1>Search Results</h1>
-  {% if vehicles %}
-    <ul>
-      {% for vehicle in vehicles %}
-        <li>
-          <strong>{{ vehicle.make }} {{ vehicle.model }}</strong> -
-          ${{ vehicle.fuelcost08 }} ({{ vehicle.year }})
-        </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>No results found.</p>
-  {% endif %}
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+
+    <!-- Header -->
+    <header class="bg-blue-600 text-white py-4 shadow">
+        <div class="container mx-auto text-center">
+            <h1 class="text-3xl font-bold">Search Results</h1>
+            <p class="text-lg mt-2">Find the perfect Toyota vehicle for you</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto mt-8 p-4 bg-white shadow-lg rounded-lg">
+        {% if error %}
+            <!-- Error Message -->
+            <div class="text-center">
+                <p class="text-red-600 font-medium text-lg">{{ error }}</p>
+            </div>
+        {% elif vehicles %}
+            <!-- Total Results -->
+            <div class="mb-4">
+                <p class="text-gray-700 text-lg font-medium">Total Results: {{ total_results }}</p>
+            </div>
+
+            <!-- Vehicle List -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for vehicle in vehicles %}
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg shadow p-4">
+                        <h2 class="text-xl font-semibold text-gray-800">{{ vehicle.make }} {{ vehicle.model }}</h2>
+                        <p class="text-gray-600 mt-2">Year: {{ vehicle.year }}</p>
+                        <p class="text-gray-600">Fuel Cost: ${{ vehicle.fuelcost08 }}</p>
+                        <p class="text-gray-600">Drive: {{ vehicle.drive }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            <div class="mt-6 flex justify-between items-center">
+                {% if page > 1 %}
+                    <a href="?make={{ request.args.make }}&model={{ request.args.model }}&price={{ request.args.price }}&year={{ request.args.year }}&page={{ page - 1 }}&size={{ page_size }}"
+                       class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                        Previous
+                    </a>
+                {% endif %}
+                {% if total_results > page * page_size %}
+                    <a href="?make={{ request.args.make }}&model={{ request.args.model }}&price={{ request.args.price }}&year={{ request.args.year }}&page={{ page + 1 }}&size={{ page_size }}"
+                       class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                        Next
+                    </a>
+                {% endif %}
+            </div>
+        {% else %}
+            <!-- No Results Message -->
+            <div class="text-center">
+                <p class="text-gray-700 font-medium text-lg">No results found. Try adjusting your search criteria.</p>
+            </div>
+        {% endif %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-blue-600 text-white py-4 mt-8">
+        <div class="container mx-auto text-center">
+            <p class="text-sm">&copy; 2025 ToyoChallenge. All rights reserved.</p>
+        </div>
+    </footer>
+
 </body>
 </html>

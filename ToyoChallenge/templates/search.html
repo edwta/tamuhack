@@ -4,28 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Vehicles</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='src/output.css') }}">
+
+    <!-- Include Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <header>
-        <h1>Search Vehicles</h1>
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+
+    <!-- Header -->
+    <header class="bg-blue-600 text-white py-4 shadow">
+        <div class="container mx-auto text-center">
+            <h1 class="text-3xl font-bold">Find Your Dream Toyota Vehicle</h1>
+            <p class="text-lg mt-2">Search and compare vehicles based on your preferences</p>
+        </div>
     </header>
-    <main>
-        <form action="/search" method="get">
-            <label for="make">Make:</label>
-            <input type="text" id="make" name="make" placeholder="e.g., Toyota">
 
-            <label for="model">Model:</label>
-            <input type="text" id="model" name="model" placeholder="e.g., Corolla">
-
-            <label for="price">Max Price:</label>
-            <input type="number" id="price" name="price" placeholder="e.g., 30000">
-
-            <label for="year">Year:</label>
-            <input type="number" id="year" name="year" placeholder="e.g., 2022">
-
-            <button type="submit">Search</button>
+    <!-- Main Content -->
+    <main class="container mx-auto mt-8 p-4 bg-white shadow-lg rounded-lg">
+        <!-- Search Form -->
+        <form action="/search" method="get" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div>
+                <label for="make" class="block text-gray-700 font-medium">Make:</label>
+                <input 
+                    type="text" 
+                    id="make" 
+                    name="make" 
+                    placeholder="e.g., Toyota" 
+                    class="w-full p-2 border border-gray-300 rounded-lg"
+                >
+            </div>
+            <div>
+                <label for="model" class="block text-gray-700 font-medium">Model:</label>
+                <input 
+                    type="text" 
+                    id="model" 
+                    name="model" 
+                    placeholder="e.g., Corolla" 
+                    class="w-full p-2 border border-gray-300 rounded-lg"
+                >
+            </div>
+            <div>
+                <label for="price" class="block text-gray-700 font-medium">Max Price:</label>
+                <input 
+                    type="number" 
+                    id="price" 
+                    name="price" 
+                    placeholder="e.g., 30000" 
+                    class="w-full p-2 border border-gray-300 rounded-lg"
+                >
+            </div>
+            <div>
+                <label for="year" class="block text-gray-700 font-medium">Year:</label>
+                <input 
+                    type="number" 
+                    id="year" 
+                    name="year" 
+                    placeholder="e.g., 2022" 
+                    class="w-full p-2 border border-gray-300 rounded-lg"
+                >
+            </div>
+            <div class="col-span-1 md:col-span-2 lg:col-span-4 text-center mt-4">
+                <button 
+                    type="submit" 
+                    class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+                    Search
+                </button>
+            </div>
         </form>
     </main>
+
+    <!-- Footer -->
+    <footer class="bg-blue-600 text-white py-4 mt-8">
+        <div class="container mx-auto text-center">
+            <p class="text-sm">&copy; 2025 ToyoChallenge. All rights reserved.</p>
+        </div>
+    </footer>
+
 </body>
 </html>
