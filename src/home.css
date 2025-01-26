@@ -1,20 +1,6 @@
 @import "tailwindcss";
 
-.image {
-  display: block;
-  width: 600px;
-  height: 350px;
-}
-#list {
-  transition: margin-left 250ms;
-}
-@keyframes fadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
-.fadeI {
-  animation: fadeIn 1s;
-}
+
 .topnav {
     overflow: hidden;
     background-color: #A9A9A9;
@@ -93,16 +79,33 @@
   }
 
   #carTable tr:hover {
-    background-color: #f1f1f1;
+    background-color: #f1f1f153;
   }
 
   #carTable img {
-    height: 300px;
-    width: 400px;
+    height: 600px;
+    width: 800px;
   }
 
   .title {
     font-weight: bold;
-    display: inline;
+    visibility: visible;
+    display: flex;
+    max-width: 200px;
+    justify-content: center;
+  }
+
+  #carName, #carDesc, #compName, #compDesc {
     text-align: center;
+    white-space: pre-line;
+  }
+
+  #compare {
+    display: flex;
+    align-items: center;
+    visibility: hidden;
+  }
+
+  #divider {
+    padding: 10px;
   }
