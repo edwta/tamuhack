@@ -1,4 +1,8 @@
 import requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Cache to store fetched image URLs
 image_cache = {}
@@ -11,8 +15,8 @@ def ensure_url_scheme(url):
 
 def fetch_car_image(make, model):
     """Fetch an image URL for a car using Google Custom Search API."""
-    api_key = "AIzaSyBk5LhPKttY1f3doAsWarXNapIEhkEKWYQ"  # Replace with your API Key
-    cx = "e38b58afc9c4844ef"        # Replace with your Custom Search Engine ID
+    api_key = os.getenv("GOOGLE_API_KEY")
+    cx = os.getenv("GOOGLE_CX")   
 
     # Add site restriction for Toyota
     query = f"{make} {model} site:toyota.com"

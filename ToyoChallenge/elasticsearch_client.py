@@ -1,4 +1,8 @@
+import os
 from elasticsearch import Elasticsearch
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def get_elasticsearch_client():
     """
@@ -7,10 +11,9 @@ def get_elasticsearch_client():
     # Local connection
     es = Elasticsearch(hosts=["http://localhost:9200"])
 
-    # Elastic Cloud (Uncomment and configure if using cloud)
     es = Elasticsearch(
-        cloud_id="My_Elasticsearch_deployment:dXMtZWFzdC0yLmF3cy5lbGFzdGljLWNsb3VkLmNvbTo0NDMkNTdiMzdiNzU5NDg4NGVhNjkxZWViN2E2YmRiOGE1YTkkNzc5OWM3MTIxYTE2NDM3ZGJhNTdmYTdmMjVmY2MxYzQ=",
-        basic_auth=("elastic", "uG22BS4JcmAWjg7y5rjUbiCJ")
+        cloud_id = os.getenv("ELASTICSEARCH_CLOUD_ID"),
+        basic_auth=(os.getenv("ELASTICSEARCH_USER"), os.getenv("ELASTICSEARCH_PASSWD"))
     )
 
     if es.ping():
