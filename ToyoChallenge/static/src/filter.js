@@ -22,6 +22,8 @@ function search() {
   }
 }
 
+
+//Open a modal view with information about selected car
 function modalSet(i) {
     var desc = "";
     list = document.getElementById(i);
@@ -31,6 +33,7 @@ function modalSet(i) {
     }
     document.getElementById('carName').textContent = info[0].textContent;
     document.getElementById('carDesc').textContent = desc;
+    //If comparing two cars, show second car's details with the first car
     if (document.getElementById("compare").style.visibility == "visible") {
         document.getElementById("compare").style.visibility = "hidden";
         document.getElementById('compName').style.display = "block";
@@ -41,6 +44,7 @@ function modalSet(i) {
     document.getElementById('popup').showModal();
 }
 
+//If "Compare" selected, prepare information of car to compare with
 function setComp() {
     document.getElementById("compare").style.visibility = "visible";
     document.getElementById("compareButton").style.display = "none";
@@ -48,6 +52,7 @@ function setComp() {
     document.getElementById('compDesc').textContent = document.getElementById('carDesc').textContent;
 }
 
+//Reset comparison and return to status quo
 function showComp() {
     document.getElementById('compName').textContent = "";
     document.getElementById('compDesc').textContent = "";
