@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toyota Home</title>
 
-    # Flask stuff
+    
     <link rel="stylesheet" href="{{ url_for('static', filename='src/output.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='src/home.css') }}">
-    <script src="{{ url_for('static', filename='filter.js') }}"></script>
+    
+    
 </head>
 <body class="height-5000">
     
@@ -55,16 +56,16 @@
     
     <div class="flex items-center justify-center flex-row">
         <h1 class="animate-pulse  items-center justify-center mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Search for your desired Toyota here!</h1>
-        <img class="size-40" src="images/toyota-logo-png-25.png">
+        <img class="size-40" src="{{ url_for('static', filename='images/toyota-logo-png-25.png') }}">
         
     
     </div>
     <div class=" flex flex-row justify-center bg-stone-200">
-        <img class="h-156 w-240 object-fit" src="images/24-toyota-prius-01.jpg">
+        <img class="h-156 w-240 object-fit" src="{{ url_for('static', filename='images/24-toyota-prius-01.jpg') }}">
         <div class="flex flex-col justify-center align-center">
             <p class="p-3 font-semibold dark:text-gray-900 text-xl">Easy to find any car of your choice with just a search</p>
-            <img src="images/Screen Shot 2025-01-25 at 4.13.54 PM.png">
-            <a class="p-3 text-center text-blue-600 font-extrabold" href="index.html">Start now!</a>
+            <img src="{{ url_for('static', filename='images/Screen Shot 2025-01-25 at 4.13.54 PM.png') }}">
+            <a class="p-3 text-center text-blue-600 font-extrabold" href="/home">Start now!</a>
         </div>
 
         
@@ -78,7 +79,7 @@
             <p class="p-5 font-semibold text-2xl dark:text-gray-900">Scroll through options</p>
         </div>
         
-        <img class="w-300 object-fit" src="images/Screen Shot 2025-01-25 at 4.20.51 PM.png">
+        <img class="w-300 object-fit" src="{{ url_for('static', filename='images/Screen Shot 2025-01-25 at 4.20.51 PM.png') }}">
 
     </div>
     <br>
@@ -89,9 +90,9 @@
         <button id="left" class="hover:bg-gray-400 rounded-md left-1 top-60 absolute border-1 bg-gray-300">&larr;</button>
         <div id="container" class="p-5 w-150 h-100 overflow-hidden">
             <ul id="list" class="flex flex-row gap-x-15 w-500 p-5">
-                <li class="inline-block w-150 h-100"><img id="" class="image" src="images/Screen Shot 2025-01-25 at 10.33.05 PM.png"></li>
-                <li class="inline-block w-150 h-100"><img class="image" src="images/2024-Toyota-Camry-XSE-Hybrid-front-view-9.jpg"></li>
-                <li class="inline-block w-150 h-100"><img class="image" src="images/24-toyota-prius-01.jpg"></li>
+                <li class="inline-block w-150 h-100"><img id="" class="image" src="{{ url_for('static', filename='images/Screen Shot 2025-01-25 at 10.33.05 PM.png') }}"></li>
+                <li class="inline-block w-150 h-100"><img class="image" src="{{ url_for('static', filename='images/2024-Toyota-Camry-XSE-Hybrid-front-view-9.jpg') }}"></li>
+                <li class="inline-block w-150 h-100"><img class="image" src="{{ url_for('static', filename='images/24-toyota-prius-01.jpg') }}"></li>
                 
             </ul>
         </div>
@@ -101,7 +102,8 @@
         <p id="descM" class="fadeI absolute text-red-300 font-semibold top-50 left-200"></p>
     </div>
     <div class="h-32"></div>
-    <script src="other.js"></script>
+    <script src="{{ url_for('static', filename='src/other.js') }}"></script>
+
     
     
       
