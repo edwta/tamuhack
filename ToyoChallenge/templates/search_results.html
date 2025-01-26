@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Search Results</title>
+</head>
+<body>
+  <h1>Search Results</h1>
+  {% if vehicles %}
+    <ul>
+      {% for vehicle in vehicles %}
+        <li>
+          <strong>{{ vehicle.make }} {{ vehicle.model }}</strong> -
+          ${{ vehicle.fuelcost08 }} ({{ vehicle.year }})
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No results found.</p>
+  {% endif %}
+</body>
+</html>

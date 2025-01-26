@@ -1,0 +1,116 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+
+.image {
+  width: 600px;
+  height: 350px;
+}
+.topnav {
+    overflow: hidden;
+    background-color: #A9A9A9;
+  }
+.lineb {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  
+  
+}
+.linew {
+  width: 60vw;
+  border: 1px solid gray;
+}
+  /* Style the links inside the navigation bar */
+  .topnav a {
+    float: left;
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+  
+  /* Change the color of links on hover */
+  .topnav a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+  /* Style the "active" element to highlight the current page */
+  .topnav a.active {
+    background-color: #2196F3;
+    color: white;
+  }
+  
+  /* Style the search box inside the navigation bar */
+  .topnav input[type=text] {
+    float: right;
+    padding: 6px;
+    border: none;
+    margin-top: 8px;
+    margin-right: 16px;
+    font-size: 17px;
+    color:white
+  }
+
+/*   .simple {
+    overflow: hidden;
+  }
+
+  .simple p, .simple input{
+    justify-content: center;
+    align-items: center;
+    display: inline-block;
+    padding:6px;
+    text-align: left;
+  } */
+
+  #carTable {
+    border-collapse: collapse;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto auto auto;
+    border: 0px;
+    justify-content: center;
+  }
+  
+  #carTable tr, #carTable td, ul{
+    padding: 12px;
+    border: 0px;
+    text-align: center;
+  }
+
+  #carTable tr:hover {
+    background-color: #f1f1f153;
+  }
+
+  #carTable img {
+    height: 600px;
+    width: 800px;
+  }
+
+  .title {
+    font-weight: bold;
+    visibility: visible;
+    display: flex;
+    max-width: 200px;
+    justify-content: center;
+  }
+
+  #carName, #carDesc, #compName, #compDesc {
+    text-align: center;
+    white-space: pre-line;
+  }
+
+  #compare {
+    display: flex;
+    align-items: center;
+    visibility: hidden;
+  }
+
+  #divider {
+    padding: 10px;
+  }

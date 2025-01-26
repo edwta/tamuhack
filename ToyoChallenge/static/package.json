@@ -1,0 +1,36 @@
+{
+  "scripts": {
+    "build:css": "npx @tailwindcss/cli -i app.css -o public/output.css"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.0.0",
+    "@tailwindcss/postcss": "^4.0.0",
+    "@tailwindcss/vite": "^4.0.0",
+    "install": "^0.13.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "daisyui": "^5.0.0-beta.2",
+    "postcss": "^8.5.1",
+    "tailwindcss": "^4.0.0"
+  },
+  "name": "tamuhack",
+  "version": "1.0.0",
+  "main": "filter.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edwta/tamuhack.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/edwta/tamuhack/issues"
+  },
+  "homepage": "https://github.com/edwta/tamuhack#readme",
+  "description": ""
+
+}
