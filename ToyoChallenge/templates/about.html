@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toyota Home</title>
-    <link rel="stylesheet" href="src/output.css">
-    <link rel="stylesheet" href="src/home.css">
+
+    # Flask stuff
+    <link rel="stylesheet" href="{{ url_for('static', filename='src/output.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='src/home.css') }}">
+    <script src="{{ url_for('static', filename='filter.js') }}"></script>
 </head>
 <body class="height-5000">
     
