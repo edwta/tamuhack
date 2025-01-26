@@ -61,3 +61,4 @@ right.addEventListener('click', (event) => {
     console.log("CLICKED");
 
 });
+
